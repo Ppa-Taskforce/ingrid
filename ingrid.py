@@ -8,9 +8,9 @@ from telegram.ext import MessageHandler, Filters
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
 
-# Echo back everything that is not a command
-def echo(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
+    # Echo back everything that is not a command
+    def echo(bot, update):
+        bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 def setup_logger(logger_name, log_file, level=logging.INFO):
     l = logging.getLogger(logger_name)
