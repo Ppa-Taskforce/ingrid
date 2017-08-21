@@ -53,11 +53,11 @@ def main():
     critical = logging.getLogger('critical')
 
     # Log some bogus to the log files for testing
-    debug.debug('debug for log!')
-    info.info('info for log!')
-    warning.warning('warning for log!')
-    error.error('error for log!')
-    critical.critical('critical for log!')
+    debug.debug('Initiate logging for debug!')
+    info.info('Initiate logging for info!')
+    warning.warning('Initiate logging for warning!')
+    error.error('Initiate logging for error!')
+    critical.critical('Initiate logging for critical!')
 
     # Commence zee logging!
     logging.getLogger('debug')

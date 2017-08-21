@@ -102,3 +102,6 @@ ENV/
 
 ### Do not read the token file
 apiKey
+
+# Log files
+*.log
