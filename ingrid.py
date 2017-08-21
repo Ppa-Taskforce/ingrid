@@ -1,5 +1,6 @@
 from telegram.ext import Updater
 import logging
+from __future__ import absolute_import
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
 
@@ -11,8 +12,20 @@ def start(bot, update):
 def echo(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
-if __name__ == "__main__":
+def setup_logger(logger_name, log_file, level=logging.INFO):
+    l = logging.getLogger(logger_name)
+    # formatter = logging.Formatter('%(asctime)s : %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fileHandler = logging.FileHandler(log_file, mode='w')
+    fileHandler.setFormatter(formatter)
+    streamHandler = logging.StreamHandler()
+    streamHandler.setFormatter(formatter)
 
+    l.setLevel(level)
+    l.addHandler(fileHandler)
+    l.addHandler(streamHandler)
+
+def main():
     # Get the telegram token
     a = open("apiKey", "r")
     secret = a.readline().rstrip() # Strip the newline!
@@ -22,8 +35,36 @@ if __name__ == "__main__":
     updater = Updater(secret)
     dispatcher = updater.dispatcher # Quicker access to the dispatcher used by Updater
 
+    # Momenteel geen logging naar debug. Ik snap niet waarom...
+
     # Enable logging
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+    # Log to different files
+    setup_logger('debug', r'ingrid_debug.log')
+    setup_logger('info', r'ingrid_info.log')
+    setup_logger('warning', r'ingrid_warning.log')
+    setup_logger('error', r'ingrid_error.log')
+    setup_logger('critical', r'ingrid_critical.log')
+
+    # Set up the different logs
+    debug = logging.getLogger('debug')
+    info = logging.getLogger('info')
+    warning = logging.getLogger('warning')
+    error = logging.getLogger('error')
+    critical = logging.getLogger('critical')
+
+    # Log some bogus to the log files for testing
+    debug.debug('debug for log!')
+    info.info('info for log!')
+    warning.warning('warning for log!')
+    error.error('error for log!')
+    critical.critical('critical for log!')
+
+    # Commence zee logging!
+    logging.getLogger('debug')
+    logging.getLogger('info')
+    logging.getLogger('warning')
+    logging.getLogger('error')
+    logging.getLogger('critical')
 
     # Say hi when initiating a chat with '/start'
     start_handler = CommandHandler('start', start)
@@ -35,3 +76,6 @@ if __name__ == "__main__":
 
     # Run it!
     updater.start_polling()
+
+if '__main__' == __name__:
+    main()
