@@ -101,4 +101,4 @@ ENV/
 .mypy_cache/
 
 ### Do not read the token file
-TOKEN
+apiKey
