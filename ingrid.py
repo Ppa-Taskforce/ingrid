@@ -3,14 +3,11 @@ import logging
 from __future__ import absolute_import
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
+from features import social
 
 # Say hi when initiating a chat with '/start'
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
-
-    # Echo back everything that is not a command
-    def echo(bot, update):
-        bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 def setup_logger(logger_name, log_file, level=logging.INFO):
     l = logging.getLogger(logger_name)
@@ -53,11 +50,11 @@ def main():
     critical = logging.getLogger('critical')
 
     # Log some bogus to the log files for testing
-    debug.debug('Initiate logging for debug!')
-    info.info('Initiate logging for info!')
-    warning.warning('Initiate logging for warning!')
-    error.error('Initiate logging for error!')
-    critical.critical('Initiate logging for critical!')
+    # debug.debug('Initiate logging for debug!')
+    # info.info('Initiate logging for info!')
+    # warning.warning('Initiate logging for warning!')
+    # error.error('Initiate logging for error!')
+    # critical.critical('Initiate logging for critical!')
 
     # Commence zee logging!
     logging.getLogger('debug')
@@ -71,7 +68,7 @@ def main():
     dispatcher.add_handler(start_handler)
 
     # Echo back everything that is not a command
-    echo_handler = MessageHandler(Filters.text, echo)
+    echo_handler = MessageHandler(Filters.text, social.echo)
     dispatcher.add_handler(echo_handler)
 
     # Run it!
