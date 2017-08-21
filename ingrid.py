@@ -3,14 +3,11 @@ import logging
 from __future__ import absolute_import
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
+from social_features import Social
 
 # Say hi when initiating a chat with '/start'
 def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
-
-    # Echo back everything that is not a command
-    def echo(bot, update):
-        bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 def setup_logger(logger_name, log_file, level=logging.INFO):
     l = logging.getLogger(logger_name)
@@ -71,11 +68,13 @@ def main():
     dispatcher.add_handler(start_handler)
 
     # Echo back everything that is not a command
-    echo_handler = MessageHandler(Filters.text, echo)
+    echo_handler = MessageHandler(Filters.text, social.echo)
     dispatcher.add_handler(echo_handler)
 
     # Run it!
-    updater.start_polling()
+    # updater.start_polling()
 
 if '__main__' == __name__:
     main()
+
+# ImportError: cannot import name 'social'
