@@ -105,3 +105,5 @@ apiKey
 
 # Log files
 *.log
+
+features/moduletest\.py
