@@ -1,9 +1,14 @@
-from telegram.ext import Updater
 import logging
 from __future__ import absolute_import
+
+from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
+from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram.ext import InlineQueryHandler
+
 from features import social
+from features import administrative
 
 # Say hi when initiating a chat with '/start'
 def start(bot, update):
@@ -71,8 +76,33 @@ def main():
     echo_handler = MessageHandler(Filters.text, social.echo)
     dispatcher.add_handler(echo_handler)
 
+    # Return a message in all CAPS with "/caps <message>"
+    caps_handler = CommandHandler('caps', social.caps, pass_args=True)
+    dispatcher.add_handler(caps_handler)
+
+    # Return a message inline in all CAPS with "@ingridtbot caps <message>"
+    inline_caps_handler = InlineQueryHandler(social.inline_caps)
+    dispatcher.add_handler(inline_caps_handler)
+
+    # Return the user id
+    userid_handler = CommandHandler('my_id', administrative.my_id)
+    dispatcher.add_handler(userid_handler)
+
+    # Are you an admin?
+    am_admin_handler = CommandHandler('am_admin', administrative.am_admin)
+    dispatcher.add_handler(am_admin_handler)
+
+    # Restart the bot (only admins can do that)
+    dispatcher.add_handler(CommandHandler('r', administrative.restart))
+
+    # reply to all commands that were not recognized by the previous handlers.
+    # Needs to be the last function called!
+    unknown_handler = MessageHandler(Filters.command, administrative.unknown)
+    dispatcher.add_handler(unknown_handler)
+
     # Run it!
     updater.start_polling()
+    updater.idle() # added for test purposes to disable needless threading.
 
 if '__main__' == __name__:
     main()
