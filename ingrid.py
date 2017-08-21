@@ -3,7 +3,7 @@ import logging
 from __future__ import absolute_import
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
-from social_features import Social
+from features import social
 
 # Say hi when initiating a chat with '/start'
 def start(bot, update):
@@ -50,11 +50,11 @@ def main():
     critical = logging.getLogger('critical')
 
     # Log some bogus to the log files for testing
-    debug.debug('Initiate logging for debug!')
-    info.info('Initiate logging for info!')
-    warning.warning('Initiate logging for warning!')
-    error.error('Initiate logging for error!')
-    critical.critical('Initiate logging for critical!')
+    # debug.debug('Initiate logging for debug!')
+    # info.info('Initiate logging for info!')
+    # warning.warning('Initiate logging for warning!')
+    # error.error('Initiate logging for error!')
+    # critical.critical('Initiate logging for critical!')
 
     # Commence zee logging!
     logging.getLogger('debug')
@@ -72,9 +72,7 @@ def main():
     dispatcher.add_handler(echo_handler)
 
     # Run it!
-    # updater.start_polling()
+    updater.start_polling()
 
 if '__main__' == __name__:
     main()
-
-# ImportError: cannot import name 'social'
