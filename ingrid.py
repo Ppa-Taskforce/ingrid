@@ -4,7 +4,6 @@ from __future__ import absolute_import
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
-from telegram import Bot
 from telegram import InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import InlineQueryHandler
 
@@ -78,27 +77,22 @@ def main():
     # dispatcher.add_handler(echo_handler)
 
     # Return a message in all CAPS with "/caps <message>"
-    caps_handler = CommandHandler('caps', social.caps, pass_args=True)
-    dispatcher.add_handler(caps_handler)
+    # caps_handler = CommandHandler('caps', social.caps, pass_args=True)
+    # dispatcher.add_handler(caps_handler)
 
     # Return a message inline in all CAPS with "@ingridtbot caps <message>"
-    inline_caps_handler = InlineQueryHandler(social.inline_caps)
-    dispatcher.add_handler(inline_caps_handler)
+    # inline_caps_handler = InlineQueryHandler(social.inline_caps)
+    # dispatcher.add_handler(inline_caps_handler)
 
     # Return the user id
-    # userid_handler = CommandHandler('my_id', administrative.my_id)
-    # dispatcher.add_handler(userid_handler)
+    userid_handler = CommandHandler('my_id', administrative.my_id)
+    dispatcher.add_handler(userid_handler)
 
-    dispatcher.add_handler(CommandHandler('get_administrators', administrative.get_administrators))
+    # Restart the bot (only admins can do that)
+    dispatcher.add_handler(CommandHandler('r', administrative.restart))
 
-    dispatcher.add_handler(CommandHandler('print_administrators', administrative.print_administrators))
-
-    # Are you an admin?
-    # am_admin_handler = CommandHandler('am_admin', administrative.am_admin)
-    # dispatcher.add_handler(am_admin_handler)
-
-    # # Restart the bot (only admins can do that)
-    # dispatcher.add_handler(CommandHandler('r', administrative.restart))
+    # Is the user an admin?
+    dispatcher.add_handler(CommandHandler('am_admin', administrative.am_admin))
 
     # reply to all commands that were not recognized by the previous handlers.
     # Needs to be the last function called!
